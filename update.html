@@ -1,0 +1,72 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link
+	href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+	rel="stylesheet"
+/>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+	* {
+		font-family: "Montserrat", sans-serif;
+		transition-property: background-color, color, box-shadow !important;
+		transition-duration: .4s !important;
+	}
+</style>
+<body>
+	<div id="app" class="inset-center">
+		<form class="flex flex-col items-center justify-center" action="/update" method="POST" onsubmit="form(); return false;">
+			<h1 class="text-center text-gray-600 text-2xl font-extrabold m-3">Update URL</h1>
+			<i class="text-center text-gray-400">Updating <a class="text-green-500" :href="link_url">https://slight.gq/{{url}}</a>
+					<span
+			v-if="message"
+			v-html="message"
+			class="block p-2 mx-auto bg-green-100 ring-2 ring-green-500 text-gray-500 my-3 w-12/12 break-all max-w-prose h-auto italic rounded text-md text-center"
+			></span
+		>
+			<input class="w-full mt-1 focus:ring-4 focus:outline-none focus:ring-green-500 rounded focus:ring-opacity-50 border-2 border-green-500 transition-shadow transition-colors p-2 text-gray-600 shadow-xl text-sm hover:shadow-2xl" type="text" name="password" placeholder="Password">
+			<input class="w-full mt-1 focus:ring-4 focus:outline-none focus:ring-green-500 rounded focus:ring-opacity-50 border-2 border-green-500 transition-shadow transition-colors p-2 text-gray-600 shadow-xl text-sm hover:shadow-2xl" type="text" name="url" placeholder="New URL">
+			<input class="w-full mt-1 focus:ring-4 focus:outline-none focus:ring-green-500 rounded focus:ring-opacity-50 border-2 border-green-500 transition-shadow transition-colors p-2 text-gray-600 shadow-xl text-sm hover:shadow-2xl" type="text" name="id" placeholder="New ID">
+			<button type="submit" class="bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 hover:bg-green-700 text-white font-bold py-2 px-4 md:px-6 lg:px-8 rounded transition-colors transition-shadow block w-full my-2">
+				<span v-if='status==="loading"'><svg class="animate-spin h-3 w-3 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg></span>
+				<span v-else>
+				Update
+				</span>
+			</button>
+		</form>
+	</div>
+</body>
+<script>
+	var app = new Vue({
+		el: "#app",
+		data: {
+			message: "",
+			status: "normal",
+			url: window.location.pathname.split("/")[1],
+			link_url: "https://slight.gq/" + window.location.pathname.split("/")[1]
+		},
+		methods: {}
+	})
+	async function form(){
+		var data = Object.fromEntries((new FormData(document.querySelector("form"))).entries());
+		console.log(data);
+		app.status = "loading";
+		data.url_id = window.location.pathname.split("/")[1];
+		let res = await fetch("/update", {
+			method: "POST",
+			body: JSON.stringify(data)
+		}).then(res => res.json());
+		app.status = "normal"
+		app.message = res.message || res.error;
+	}
+</script>
+<style>
+	.inset-center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+</style>
