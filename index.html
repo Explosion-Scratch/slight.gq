@@ -16,6 +16,12 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 - 💸 Free: It's totally free.
 - 👨‍💻 Open source: Just go to https://slight.gq/__repl to see the code.
 ">
+<noscript>
+	<center style="height: 100vh; width: 100vw; background: white; z-index: 10000; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+	<h1 class="text-center text-gray-700 text-5xl block">Idiot</h1>
+	<i class="block"><p>Turn on JavaScript >=(</p></i>
+	</center>
+</noscript>
 <link type="application/json+oembed" href="https://slight.gq/embed.json" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -36,26 +42,28 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 </style>
 <script src="https://bijou.js.org/bijou.js" type="module"></script>
 <html>
-	<div id="app" class="h-full flex flex-col justify-center items-center">
+
+<body style="visibility: hidden;" onload="display()">
+	<div id="app" class="inset-center h-full flex flex-col justify-center items-center" style="max-width: 60vw; min-width: 60vw;">
 		<h1 class="text-center text-gray-600 text-2xl font-extrabold m-3">
 			URL Shortener
 		</h1>
 		<span
 			v-if="shortened"
 			v-html="shortened"
-			class="p-2 bg-green-100 ring-2 ring-green-500 text-gray-500 my-3 w-6/12 break-all max-w-prose h-auto italic inline-block rounded text-md text-center"
+			class="p-2 bg-green-100 ring-2 ring-green-500 text-gray-500 my-3 break-all w-full h-auto italic inline-block rounded text-md text-center"
 			></span
 		>
-		<div class="input" class="flex flex-row items-center justify-center">
+		<div class="input flex flex-col sm:flex-row items-center justify-center" style="min-width: 100%;">
 			<input
 				v-on:change="changeUrl"
 				v-on:blur="changeUrl"
 				v-on:keyup="changeUrl"
-				class="focus:ring-4 focus:outline-none focus:ring-green-500 rounded focus:ring-opacity-50 border-2 border-green-500 transition-shadow transition-colors p-2 text-gray-600 shadow-xl text-sm hover:shadow-2xl"
+				class="w-full focus:ring-4 focus:outline-none focus:ring-green-500 rounded focus:ring-opacity-50 border-2 border-green-500 transition-shadow transition-colors p-2 text-gray-600 shadow-xl text-sm hover:shadow-2xl flex my-2"
 				type="url"
 				name="url"
 				id="url"
-				style="flex: 3; width: 60vw; max-width: 500px"
+				style="flex: 10"
 				placeholder="Shorten a url!"
 				autofocus
 				spellcheck="false"
@@ -63,20 +71,20 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 			<button
 				id="button"
 				v-on:click="shortenurl"
-				class="flex-1 bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 hover:bg-green-700 text-white font-bold py-2 px-4 md:px-6 lg:px-8 rounded transition-colors transition-shadow block w-full my-2 sm:inline-block sm:w-auto"
+				class="my-2 flex-1 w-full bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 hover:bg-green-700 text-white font-bold py-2 px-4 md:px-6 lg:px-8 rounded transition-colors transition-shadow flex text-center ml-1"
 			>
-			<span v-if='status==="loading"'><svg class="animate-spin h-3 w-3 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+			<span v-if='status==="loading"'><svg style="margin: 0 auto;" class="inline-block animate-spin h-3 w-3 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg></span>
-				<span v-else>
+				<span v-else class="text-center w-full">
 				Go
 				</span>
 			</button>
 		</div>
 		<span
 			v-if="newurl.replace(/[^a-z]/g, '').length && re.test(newurl)"
-			  class="text-sm mt-6 text-gray-400 font-light"
+			  class="w-full sm:w-6/12 text-center text-sm mt-6 text-gray-400 font-light"
 			>The new URL will be
 			<span class="bg-green-400 rounded inline-block text-white"
 				>https://slight.gq/{{id}}</span
@@ -85,15 +93,20 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 			<a class="underline inline text-green-600 hover:text-green-700" v-else v-on:click="setPassword" href="javascript:void(0)">Set password</a></span>
 		<span
 			v-else-if="newurl"
-			  class="italic text-sm text-gray-400 mt-6 font-light"
+			  class="w-full sm:w-6/12 text-center italic text-sm text-gray-400 mt-6 font-light"
 			>Invalid URL format</span
 		>
-		<span v-else   class="italic text-sm mt-6 text-gray-400 font-light"
+		<span v-else   class="w-full sm:w-6/12 text-center italic text-sm mt-6 text-gray-400 font-light"
 			>Type something into the URL box!</span
 		>
 	</div>
+</body>
 </html>
 <script>
+	function display(){
+		document.body.style.visibility='visible';
+	}
+	// display();
 	var app = new Vue({
 		el: "#app",
 		data: {

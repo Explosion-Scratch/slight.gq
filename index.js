@@ -12,7 +12,7 @@ app.get("/embed.json", (_, res) => res.sendFile(`${__dirname}/embed.json`));
 
 app.post("/shorten", (req, res) => {
 	const id = req.body.id ? req.body.id.replace(/[^a-z0-9]/gi, "") : genId();
-	if (!(id.length > 3)){
+	if (id.length < 3){
 		res.json({error: "Invalid ID. Id's must be above 3 characters long and contain only alphanumeric characters."})
 		return;
 	}
@@ -68,9 +68,9 @@ app.get("/:id", (req, res) => {
 		return;
 	}
 	if (urls[req.params.id].url){
-		res.redirect(urls[req.params.id].url)
+		res.status(302).redirect(urls[req.params.id].url)
 	} else {
-		res.redirect(urls[req.params.id]);
+		res.status(302).redirect(urls[req.params.id]);
 	}
 	if (typeof urls[req.params.id] === "string"){
 		urls[req.params.id] = {
@@ -85,7 +85,7 @@ app.get("/:id", (req, res) => {
 app.post("/update", (req, res) => {
 	var urls = require("./urls.json");
 	const id = req.body.url_id? req.body.url_id.replace(/[^a-z0-9]/gi, "") : "";
-	if (!id || !(id.length > 3)){
+	if (!id || id.length < 3){
 		res.json({error: "Invalid ID. Id's must be above 3 characters long and contain only alphanumeric characters."})
 		return;
 	}
