@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const { writeFileSync: write } = require("fs");
 var loops = ["tiny.cc", "bit.ly", "go.gl", "is.gd"]
+const cors = require("cors");
+app.use(cors());
 
 app.use(bodyParser.json({ type: "*/*" }));
 
@@ -21,6 +23,15 @@ app.post("/shorten", (req, res) => {
 		res.json({ error: "No URL given." });
 		return;
 	}
+
+	if (
+		!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
+			req.body.url,
+		)
+	) {
+		res.json({ error: "Invalid URL recieved." });
+		return;
+	}
 	let urlwohttp = (new URL(req.body.url)).hostname
 	let split = urlwohttp.split(".")
 	urlwohttp = split.length > 2 ? `${split[split.length - 1]}.${split[split.length]}` : urlwohttp;
@@ -29,14 +40,6 @@ app.post("/shorten", (req, res) => {
 			res.json({error: "That URL may result in an infinite loop."});
 			return;
 		}
-	}
-	if (
-		!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
-			req.body.url,
-		)
-	) {
-		res.json({ error: "Invalid URL recieved." });
-		return;
 	}
 	if (urls[id]) {
 		res.json({
@@ -58,6 +61,7 @@ app.post("/shorten", (req, res) => {
 	}
 	res.json({
 		message: message,
+		url: `https://slight.gq/${id}`
 	});
 	write("./urls.json", JSON.stringify(urls));
 });
@@ -173,4 +177,9 @@ function hash(str, seed = 0) {
     h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
     return 4294967296 * (2097151 & h2) + (h1>>>0);
 };
+function u(req){
+	var half = (str) =>[str.slice(0, Math.floor(str.length / 2)),  str.slice(Math.floor(str.length / 2))]
+	let ua = `${req.headers['user-agent']}`;
+	return hash(half(ua)[0]).toString(36) + hash(half(ua)[1]) + hash(req.params.id).toString(36)
+}
 app.listen(3000);
