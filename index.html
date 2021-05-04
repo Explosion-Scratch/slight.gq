@@ -55,7 +55,7 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 				type="url"
 				name="url"
 				id="url"
-				style="width: 60vw; max-width: 500px"
+				style="flex: 3; width: 60vw; max-width: 500px"
 				placeholder="Shorten a url!"
 				autofocus
 				spellcheck="false"
@@ -63,7 +63,7 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 			<button
 				id="button"
 				v-on:click="shortenurl"
-				class="bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 hover:bg-green-700 text-white font-bold py-2 px-4 md:px-6 lg:px-8 rounded transition-colors transition-shadow block w-full my-2 sm:inline-block sm:w-auto"
+				class="flex-1 bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 hover:bg-green-700 text-white font-bold py-2 px-4 md:px-6 lg:px-8 rounded transition-colors transition-shadow block w-full my-2 sm:inline-block sm:w-auto"
 			>
 			<span v-if='status==="loading"'><svg class="animate-spin h-3 w-3 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -78,11 +78,11 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 			v-if="newurl.replace(/[^a-z]/g, '').length && re.test(newurl)"
 			  class="text-sm mt-6 text-gray-400 font-light"
 			>The new URL will be
-			<span class="bg-green-400 rounded block p-0.5 text-white"
+			<span class="bg-green-400 rounded inline-block text-white"
 				>https://slight.gq/{{id}}</span
-			><br><a class="hover:bg-green-600 p-1 cursor-pointer bg-green-500 text-white rounded" href="javascript:void(0)" v-on:click="newId">Change ID</a>
-			<a class="hover:bg-green-600 p-1 cursor-pointer bg-green-500 text-white rounded" v-if="password" v-on:click="setPassword" href="javascript:void(0)">Change password</a>
-			<a class="hover:bg-green-600 p-1 cursor-pointer bg-green-500 text-white rounded" v-else v-on:click="setPassword" href="javascript:void(0)">Set password</a></span>
+			><br><a class="underline inline text-green-600 hover:text-green-700" href="javascript:void(0)" v-on:click="newId">Change ID</a>
+			<a class="underline inline text-green-600 hover:text-green-700" v-if="password" v-on:click="setPassword" href="javascript:void(0)">Change password</a>
+			<a class="underline inline text-green-600 hover:text-green-700" v-else v-on:click="setPassword" href="javascript:void(0)">Set password</a></span>
 		<span
 			v-else-if="newurl"
 			  class="italic text-sm text-gray-400 mt-6 font-light"
@@ -163,15 +163,6 @@ Slight.gq is a super easy to use, quick, no tracking URL shortener. It supports:
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-	}
-	span.italic.text-sm.mt-6.text-gray-400.font-light {
-		max-width: 60vw;
-		margin: 20px auto;
-		word-wrap: break-all;
-	}
-	span.bg-green-400.rounded.text-white {
-		word-break: break-all;
-		word-wrap: break-word;
 	}
 	.snackbar-container {
 		background: white !important;
