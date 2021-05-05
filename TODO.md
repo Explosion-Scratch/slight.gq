@@ -5,3 +5,4 @@
   - Currently it changes when loading icon shows.
 - Make noscript version
   - Using forms.
+- Use validator lib for validating urls and stuff

@@ -1,0 +1,32 @@
+<center><h1>URL Shortener</h1></center>
+<form action="/shorten" enctype="application/x-www-form-urlencoded" method="POST">
+	<label>URL to shorten: <input type="text" placeholder="URL to shorten" name="url" required></label>
+	<label>Password for the URL: <input type="text" name="password" placeholder="Password for the URL"></label>
+	<label>ID of the new URL: <input type="text" name="id" placeholder="The ID for the URL."></label>
+	<button type="submit">Shorten!</button>
+</form>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+	h1 {
+		padding: 10px;
+		margin-top: 70px;
+	}
+	* {
+		font-family: "Montserrat", sans-serif;
+		transition-property: background-color, color, box-shadow !important;
+		transition-duration: .4s !important;
+	}
+	label, button {
+		width: 80%;
+		margin: 10px auto;
+		display: block;
+		max-width: 500px;
+		padding: 10px;
+	}
+	input, button {
+		width: 100%;
+		display: block;
+		padding: 10px;
+		font-family: "Montserrat", sans-serif;
+	}
+</style>

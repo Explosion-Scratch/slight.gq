@@ -55,7 +55,7 @@
 		app.status = "loading";
 		data.url_id = window.location.pathname.split("/")[1];
 		let res = await fetch("/update", {
-			method: "POST",
+			method: "PUT",
 			body: JSON.stringify(data)
 		}).then(res => res.json());
 		app.status = "normal"
